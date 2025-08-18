@@ -1,7 +1,10 @@
-import { StyleSheet, View } from "react-native";
-import { Posts } from "./src/components/posts";
+import { useState } from "react";
+import { Button, StyleSheet, View } from "react-native";
+import { Counter } from "./src/components/counter";
 
 export default function App() {
+  const [isVisible, setIsvisible] = useState(true);
+
   // return React.createElement(
   //   View,
   //   { style: styles.container },
@@ -16,15 +19,21 @@ export default function App() {
     */}
       {/* <User name="Mehmet" surname={"Seven"} age={32} /> */}
 
-      <Posts
+      {/* <Posts
         data={[
           { id: 1, title: "Post 1" },
           { id: 2, title: "Post 2" },
           { id: 3, title: "Post 3" },
         ]}
-      />
+      /> */}
 
-      {/* <Counter initial={5} /> */}
+      <Button
+        title={`${isVisible ? "Gizle" : "Göster"}`}
+        onPress={() => setIsvisible(!isVisible)}
+      />
+      {isVisible && <Counter initial={0} />}
+
+      {/* <Form /> */}
     </View>
   );
 }
@@ -33,7 +42,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    alignItems: "center",
+    // alignItems: "center",
     justifyContent: "center",
   },
 });

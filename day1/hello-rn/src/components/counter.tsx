@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, StyleSheet, Text, View } from "react-native";
 
 type IProps = {
@@ -7,6 +7,18 @@ type IProps = {
 
 export function Counter({ initial = 0 }: IProps) {
   const [count, setCount] = useState(initial);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      console.log("setInterval çalıştı!");
+      setCount((prev) => prev + 1);
+    }, 1000);
+
+    return () => {
+      console.log("Counter component unmount edildi!");
+      clearInterval(timer);
+    };
+  }, []);
 
   const handleIncrement = () => setCount(count + 1);
   const handleDecrement = () => setCount(count - 1);
