@@ -5,9 +5,8 @@ import {
   Text,
   View,
 } from "react-native";
-import React, { useEffect, useState } from "react";
 import { UserItem } from "./item";
-import axios, { isAxiosError } from "axios";
+import { useFetch } from "../hooks/useFetch";
 
 export type User = {
   id: number;
@@ -17,46 +16,7 @@ export type User = {
 };
 
 export default function Users() {
-  const [users, setUsers] = useState<User[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    getData();
-  }, []);
-
-  const getData = async () => {
-    try {
-      const { data: users_data } = await axios<User[]>(
-        "https://jsonplaceholder.typicode.com/users"
-      );
-
-      setUsers(users_data);
-
-      const { data: posts_data } = await axios(
-        `https://jsonplaceholder.typicode.com/posts?userId=${users_data[0].id}`
-      );
-    } catch (err) {
-      if (isAxiosError(err)) {
-        setError(err.message);
-      }
-    } finally {
-      setLoading(false);
-    }
-
-    // axios<User[]>("https://jsonplaceholder.typicode.com/users")
-    //   .then((res) => {
-    //     axios(
-    //       `https://jsonplaceholder.typicode.com/posts?userId=${res.data[0].id}`
-    //     )
-    //       .then((posts_response) => console.log(posts_response.data))
-    //       .catch();
-
-    //     setUsers(res.data);
-    //   })
-    //   .catch((err) => setError(err.message))
-    //   .finally(() => setLoading(false));
-  };
+  const { data, loading, error } = useFetch("/users");
 
   if (loading) {
     return <ActivityIndicator />;
@@ -69,7 +29,7 @@ export default function Users() {
   return (
     <View style={styles.container}>
       <FlatList
-        data={users}
+        data={data}
         renderItem={({ item }) => <UserItem user={item} />}
         keyExtractor={(item) => item.id.toString()}
       />
