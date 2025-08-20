@@ -1,9 +1,9 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { User } from "../../types/user";
-import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../../types/navigation";
 import { useNavigate } from "../../hooks/useNavigate";
+import { Ionicons } from "@expo/vector-icons";
+import { useQueryClient } from "@tanstack/react-query";
+import { queryKeys } from "../../lib/key-factory";
 
 type IProps = {
   user: User;
@@ -11,6 +11,16 @@ type IProps = {
 
 export function UserListItem({ user }: IProps) {
   const navigation = useNavigate();
+  const queryClient = useQueryClient();
+
+  const handleRemoveUser = () => {
+    queryClient.setQueryData<User[]>(queryKeys.users.all, (oldData) => {
+      if (!oldData) {
+        return [];
+      }
+      return oldData.filter((u) => u.id !== user.id);
+    });
+  };
 
   return (
     <View style={styles.container}>
@@ -20,18 +30,24 @@ export function UserListItem({ user }: IProps) {
       >
         <Text style={styles.btnText}>{user.name}</Text>
       </TouchableOpacity>
+      <TouchableOpacity onPress={handleRemoveUser} style={{ padding: 10 }}>
+        <Ionicons name="trash" size={20} color="#C96868" />
+      </TouchableOpacity>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    padding: 10,
     borderBottomWidth: 1,
     borderBottomColor: "#ccc",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
   btn: {
-    backgroundColor: "#f0f0f0",
+    padding: 10,
+    flex: 1,
     borderRadius: 5,
   },
   btnText: {

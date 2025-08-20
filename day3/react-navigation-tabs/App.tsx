@@ -69,7 +69,7 @@ const queryClient = new QueryClient({
       refetchOnMount: false,
       staleTime: 5000,
       gcTime: 5000,
-      throwOnError: true,
+      // throwOnError: true,
       retry: 0,
     },
   },
