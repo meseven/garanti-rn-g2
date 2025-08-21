@@ -1,11 +1,11 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
-import { Map } from "./src/components/map";
+import Camera from "./src/components/camera";
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Map />
+      <Camera />
       <StatusBar style="auto" />
     </View>
   );
