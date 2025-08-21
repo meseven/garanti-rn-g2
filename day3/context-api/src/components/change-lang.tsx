@@ -1,8 +1,9 @@
 import { Button, StyleSheet, Text, View } from "react-native";
-import { useLang } from "../context/lang.context";
+import { useSettings } from "../store/useSettings";
 
 export function ChangeLang() {
-  const { lang, setLang } = useLang();
+  const lang = useSettings((state) => state.lang);
+  const setLang = useSettings((state) => state.setLang);
 
   return (
     <View style={styles.container}>

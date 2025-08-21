@@ -1,8 +1,9 @@
 import { Button, StyleSheet, Text, View } from "react-native";
-import { useTheme } from "../context/theme.context";
+import { useSettings } from "../store/useSettings";
 
 export function ChangeTheme() {
-  const { theme, setTheme } = useTheme();
+  const theme = useSettings((state) => state.theme);
+  const setTheme = useSettings((state) => state.setTheme);
 
   return (
     <View style={styles.container}>

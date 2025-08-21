@@ -1,10 +1,11 @@
 import { StyleSheet, Text, View } from "react-native";
 import { useLang } from "../context/lang.context";
 import { useTheme } from "../context/theme.context";
+import { useSettings } from "../store/useSettings";
 
 export function Settings() {
-  const { lang } = useLang();
-  const { theme } = useTheme();
+  const lang = useSettings((state) => state.lang);
+  const theme = useSettings((state) => state.theme);
 
   return (
     <View>
